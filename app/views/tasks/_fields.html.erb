@@ -1,0 +1,35 @@
+<div class="well well-design">
+<%= form_for :task do |f| %>
+	<%= f.text_area :description, :placeholder => "A desciption of this task." %>
+	<%= f.number_field :hours, :placeholder => 1 %>
+	<%= f.number_field :user_story_id, :value => params[:user_story_id], :hidden => true %>
+	<%= f.select :task_type, options_for_select(task_types) %>
+	<%= f.submit %>
+<% end %>
+</div>
+<script type="text/javascript">
+	$(document).on('change', '#task_task_type', 
+			function() {
+			console.log($(this).val());	
+			var newColour;
+			var taskType = $(this).val();
+		
+			if(taskType == "Design")
+			{
+				newColour = "#93d9a6";
+			}
+			if(taskType == "Development")
+			{
+				newColour = "#99c7ff";
+			}
+			if(taskType == "Documentation")
+			{	
+				newColour = "#ff7575";
+			}
+			if(taskType == "Spike")
+			{
+		 		newColour = "#e697e6";	
+			}	
+		  $(".well-design").css("background-color", newColour);	
+  });
+</script>

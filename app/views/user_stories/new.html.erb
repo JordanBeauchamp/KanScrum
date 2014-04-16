@@ -1,0 +1,11 @@
+<h1>Create new user story</h1>
+<%= form_for :user_story do |f| %>
+	<%= f.text_field :title, :placeholder => "Title" %>
+	<%= f.text_area :description, :placeholder => "A breif description" %>
+	<%= f.text_area :criteria,  :placeholder => "The accepatnce criteria" %>
+	<strong> prioirty </strong>
+	<%= f.number_field :priority, :placeholder => 0, :default => 0 %>
+	<strong> story points </strong>
+	<%= f.number_field :story_points, :placeholder => 0, :default => 0 %>
+	<%= f.submit %>
+<% end %>
