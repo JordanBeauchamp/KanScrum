@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
+	skip_before_filter  :verify_authenticity_token, :only => [:update_status]
 	
 	include ApplicationHelper
-
 	def new
 		@task = Task.new
 	end
@@ -25,16 +25,15 @@ class TasksController < ApplicationController
 
 	# Ajax method to update task status from view.
 	def update_status
-		task = Task.find(params[:id])
-		task_status = params[:status]
-		if(task_status == "ready")
-			task.status = TaskStatus::READY
-		elsif(task_status == "inprogress")
-			task.status = TaskStatus::IN_PROGRESS
-		elsif (task_status == "done")
-			task.status = TaskStatus::DONE
+		task = Task.find_by_id(params[:id])
+		task_status = params[:task_status]
+		if(task_status == "Ready")
+			task.update(:status => TaskStatus::READY)
+		elsif(task_status == "InProgress")
+			task.update(:status => TaskStatus::IN_PROGRESS)
+		elsif (task_status == "Done")
+			task.update(:status => TaskStatus::DONE)
 		end
-		task.save
 		render json: task
 	end
 

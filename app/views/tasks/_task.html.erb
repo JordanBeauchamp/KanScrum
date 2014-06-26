@@ -1,7 +1,8 @@
-<div class="well well-<%= task.task_type.downcase %>">
+<div class="well well-<%= task.task_type.downcase %>", id=<%= task.id %>>
   <b> <%= task.task_type %> task </b>
 	<ul>
 		<li> description: <%= task.description %> </li>
 		<li> hours <%= task.hours %> </li>
 	</ul>
+	<%= number_field_tag "", task.id, {:hidden => true} %>
 </div>

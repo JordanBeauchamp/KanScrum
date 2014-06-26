@@ -10,7 +10,6 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= jquery-1.10.2.js
 //= jquery-ui-1.10.4.custom.min.js
 //= require turbolinks
 //= require_tree .

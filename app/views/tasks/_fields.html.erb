@@ -1,16 +1,18 @@
-<div class="well well-design">
-<%= form_for :task do |f| %>
-	<%= f.text_area :description, :placeholder => "A desciption of this task." %>
-	<%= f.number_field :hours, :placeholder => 1 %>
-	<%= f.number_field :user_story_id, :value => params[:user_story_id], :hidden => true %>
-	<%= f.select :task_type, options_for_select(task_types) %>
-	<%= f.submit %>
-<% end %>
+<div class="modal-body">
+	<div class="well well-design" id="newTaskDiv">
+	<%= form_for :task, :url => {:controller => "tasks", :action => "create"} do |f| %>
+		<%= f.text_area :description, :placeholder => "A desciption of this task." %>
+		<%= f.number_field :hours, :placeholder => 1 %>
+		<%= f.number_field :user_story_id, :value => @user_story.id, :hidden => true %>
+		<%= f.select :task_type, options_for_select(task_types) %>
+		<%= f.submit "create", :class => "btn btn-primary" %>
+	<% end %>
+	<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+	</div>
 </div>
 <script type="text/javascript">
 	$(document).on('change', '#task_task_type', 
 			function() {
-			console.log($(this).val());	
 			var newColour;
 			var taskType = $(this).val();
 		
@@ -29,7 +31,7 @@
 			if(taskType == "Spike")
 			{
 		 		newColour = "#e697e6";	
-			}	
-		  $(".well-design").css("background-color", newColour);	
+			}
+		  $("#newTaskDiv").css("background-color", newColour);	
   });
 </script>

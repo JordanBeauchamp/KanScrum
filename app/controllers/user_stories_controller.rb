@@ -22,6 +22,9 @@ class UserStoriesController < ApplicationController
 
   def show
   	@user_story = UserStory.find(params[:id])
+    @tasks_ready = @user_story.tasks.select{ |task| task[:status] == TaskStatus::READY}
+    @tasks_in_progress = @user_story.tasks.select{ |task| task[:status] == TaskStatus::IN_PROGRESS}
+    @tasks_done = @user_story.tasks.select{ |task| task[:status] == TaskStatus::DONE}
   end
 
   private 

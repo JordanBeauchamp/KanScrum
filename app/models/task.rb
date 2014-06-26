@@ -1,5 +1,5 @@
 class Task < ActiveRecord::Base
-	before_save :set_defaults
+	before_create :set_defaults
 
 	# Associations
 	has_one :user
