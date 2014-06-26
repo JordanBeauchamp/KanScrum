@@ -2,17 +2,49 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.well-design {
+.well-design 
+{
 	background-color:#93d9a6;
 }
-.well-development {
+.well-development 
+{
 	background-color:#99c7ff;
 }
 
-.well-documentation {
+.well-documentation 
+{
 	background-color:#ff7575;
 }
 
-.well-spike {
+.well-spike
+{
 	background-color:#e697e6;
+}
+
+.tasklist-parent
+{
+	margin: 5em;
+	width: auto;
+	height: auto;
+
+	// Child elements flex to fit.
+	display: flex;
+	flex-direction: row;
+}
+
+
+.tasklist
+{
+	border-style: solid;
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	width: 50em;
+	height: auto;
+}
+
+.tasklist-header
+{
+	font-size: 3em;
 }

@@ -4,19 +4,59 @@
 <p> <%= @user_story.description %></p>
 <h2> Acceptance criteria </h2>
 <p> <%= @user_story.criteria %><br> <br>
+
 <h1> Tasks </h1>
 <%= link_to "Add task", :controller => 'tasks', :action => 'new', :user_story_id => @user_story.id %><br>
-<ul id="tasklist">
-<% @user_story.tasks.each do |task| %>
-	<div class="well well-<%= task.task_type.downcase %>">
-  <b> <%= task.task_type %> task </b>
-	<ul>
-		<li> description: <%= task.description %> </li>
-		<li> hours <%= task.hours %> </li>
+
+<div class="tasklist-parent">
+	<ul id="tasklistReady" class="tasklist">
+	<div class="tasklist-header"> Ready </div>
+		<% @user_story.tasks.each do |task| %>
+			<%= render task, :task => task if task.status == TaskStatus::READY %>
+		<% end %>
 	</ul>
-  </div>
-<% end %>
-</ul>
+	<ul id="tasklistInProgress" class="tasklist">
+	<div class="tasklist-header"> In Progress </div>
+		<% @user_story.tasks.each do |task| %>
+			<%= render task, :task => task if task.status == TaskStatus::IN_PROGRESS %>
+		<% end %>
+	</ul>
+	<ul id="tasklistDone" class="tasklist">
+	<div class="tasklist-header"> Done</div>
+		<% @user_story.tasks.each do |task| %>
+			<%= render task, :task => task if task.status == TaskStatus::DONE %>
+		<% end %>
+	</ul>
+</div>
+
 <script type="text/javascript">
-    $("#tasklist").sortable();
+    var parentDivId = ""; // Holds the parent div id of currenlty moving item.
+
+    $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable(
+    {
+    	connectWith: ".tasklist",
+    	items: ".well",
+    	start: function(event, ui)
+    	{
+    		parentDivId = ui.item.parent().attr("id");
+    	},
+    	stop: function(event, ui)
+    	{
+    		if(ui.item.parent().attr("id") != parentDivId)
+    		{
+    			var parentId = ui.item.parent().attr("id");
+    			console.log(parentId);
+    			parentId = parentId.substring(8);
+    			console.log(parentId);
+
+    			// Update task status to reflect the new column it is in.
+    			$.ajax({
+    				type: "GET",
+    				url: "/tasks/update_status/".concat("1&" + parentId),
+    				dataType: "json"
+    			})
+    		}
+    	}
+    }).disableSelection();
+
 </script>

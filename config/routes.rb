@@ -9,5 +9,5 @@ KanScrum::Application.routes.draw do
   post "sprints/new", :to => "sprints#create"
   post "/", :to => "sprints#create"
   post "user_stories/new", :to => "user_stories#create"
-
+  get '/tasks/update_status/:id&:status', to: 'tasks#update_status'
 end
