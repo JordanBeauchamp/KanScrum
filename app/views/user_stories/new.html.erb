@@ -7,5 +7,6 @@
 	<%= f.number_field :priority, :placeholder => 0, :default => 0 %>
 	<strong> story points </strong>
 	<%= f.number_field :story_points, :placeholder => 0, :default => 0 %>
+	<%= f.number_field :sprint_id, :value => params[:sprint_id], :hidden => true %>
 	<%= f.submit %>
 <% end %>

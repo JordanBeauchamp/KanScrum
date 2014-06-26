@@ -3,7 +3,7 @@ class UserStoriesController < ApplicationController
 	def create
 		@user_story = UserStory.new(user_story_params)
 		if @user_story.save
-      render 'show', :id => @user_story.id
+      redirect_to :controller => "sprints", :action => "show", :id => @user_story.sprint_id
     else
 			render 'new'
 		end
@@ -26,7 +26,7 @@ class UserStoriesController < ApplicationController
 
   private 
   def user_story_params
-  	 params.require(:user_story).permit(:id, :title, :description, :criteria, :story_points, :priority, :estimated_hours)
+  	 params.require(:user_story).permit(:id, :title, :description, :criteria, :story_points, :priority, :estimated_hours, :sprint_id)
   end
 
 end

@@ -1,3 +1,3 @@
 class Sprint < ActiveRecord::Base
-  belongs_to :UserStory
+  has_many :user_stories
 end

@@ -1,11 +1,12 @@
+<%= link_to "Sprint", :controller => "sprints", :action => "show", :id => @user_story.sprint_id %>
 <h1> <%= @user_story.title %> </h1>
 <h2> Description </h2>
 <p> <%= @user_story.description %></p>
 <h2> Acceptance criteria </h2>
 <p> <%= @user_story.criteria %><br> <br>
-<strong> <%= @user_story.tasks %> </strong>
 <h1> Tasks </h1>
 <%= link_to "Add task", :controller => 'tasks', :action => 'new', :user_story_id => @user_story.id %><br>
+<ul id="tasklist">
 <% @user_story.tasks.each do |task| %>
 	<div class="well well-<%= task.task_type.downcase %>">
   <b> <%= task.task_type %> task </b>
@@ -15,3 +16,7 @@
 	</ul>
   </div>
 <% end %>
+</ul>
+<script type="text/javascript">
+    $("#tasklist").sortable();
+</script>

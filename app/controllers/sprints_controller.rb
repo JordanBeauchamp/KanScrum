@@ -1,14 +1,15 @@
-class SprintController < ApplicationController
+class SprintsController < ApplicationController
   def index
-	@sprints = Sprint.all
+	 @sprints = Sprint.all
   end
 
   def show
-	@sprint = Sprint.find(:id)
+    puts params[:id]
+	 @sprint = Sprint.find(params[:id])
   end
 
   def new
-	@sprint = Sprint.new	 
+	 @sprint = Sprint.new	 
   end
 
   def create
