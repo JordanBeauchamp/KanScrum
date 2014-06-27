@@ -1,0 +1,26 @@
+<div class="tasklist-parent">		
+	<div class="tasklist">
+		<%= render user_story, user_story: user_story %>
+	</div>
+	<ul id="tasklistReady" class="tasklist">
+		<% if @tasks[user_story.id.to_s]['Ready'] %>
+			<% @tasks[user_story.id.to_s]['Ready'].each do |task| %>
+				<%= render task, task: task %>
+			<% end %>
+		<% end %>
+	</ul>
+	<ul id="tasklistInProgress" class="tasklist">
+		<% if @tasks[user_story.id.to_s]['In Progress'] %>
+			<% @tasks[user_story.id.to_s]['In Progress'].each do |task| %>
+				<%= render task, task: task %>
+			<% end %>
+		<% end %>
+	</ul>
+	<ul id="tasklistDone" class="tasklist">
+		<% if @tasks[user_story.id.to_s]['Done'] %>
+			<% @tasks[user_story.id.to_s]['Done'].each do |task| %>
+				<%= render task, task: task %>
+			<% end %>
+		<% end %>
+	</ul>
+</div>

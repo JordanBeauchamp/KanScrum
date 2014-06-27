@@ -1,3 +1,25 @@
 // Place all the styles related to the Sprint controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+ul
+{
+	padding: 0;
+}
+
+.taskboard-header
+{
+	font-size: 3em;
+	padding-left: 3.2em;
+	padding-right: 3.2em;
+}
+
+.taskboard-header-placeholder
+{
+	margin: auto;
+}
+
+.taskboard-header-group
+{
+	display: flex;
+	flex-direction: row;
+}

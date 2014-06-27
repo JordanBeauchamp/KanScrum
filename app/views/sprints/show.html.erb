@@ -1,11 +1,23 @@
 <h1>Sprint <%= @sprint.name %></h1>
 <%= link_to "Add User Story", :controller => 'user_stories', :action => 'new', :sprint_id => @sprint.id %><br>
 
-<ul id="userstorylist">
+<div class="tasklist-parent">		
+	<div class="tasklist"></div>
+	<ul id="tasklistReady" class="tasklist">
+		<div class="tasklist-header">Ready</div>
+	</ul>
+	<ul id="tasklistInProgress" class="tasklist">
+		<div class="tasklist-header">In Progress</div>
+	</ul>
+	<ul id="tasklistDone" class="tasklist">
+		<div class="tasklist-header">Done</div>
+	</ul>
+</div>
+<ul id="userStoryList">
 	<% @sprint.user_stories.each do |user_story| %>
-		<%= render user_story, :user_story => user_story %>
+			<%= render 'taskboard', user_story: user_story %>
 	<% end %>
 </ul>
 <script type="text/javascript">
-    $("#userstorylist").sortable();
+    $("#userStoryList").sortable();
 </script>
