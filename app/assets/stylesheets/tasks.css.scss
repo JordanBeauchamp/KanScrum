@@ -2,11 +2,27 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.circle {
+	border-radius: 50%;
+	width: 3em;
+	height: 3em; 
+	background-color: #edf0f2;
+	text-align: center;
+	line-height: 3em;
+	margin-left: auto;
+}
+
+.circle-text
+{
+	font-size: 2em;
+}
+
 .well
 {
 	width: auto;
 	height: auto;
 	margin: 0.5em;
+	display: block;
 }
 
 .well-design 

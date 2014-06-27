@@ -1,7 +1,9 @@
 <div class="well well-<%= task.task_type.downcase %>", id=<%= task.id %>>
-  <b> <%= task.task_type %> task </b>
-	<ul>
-		<li> description: <%= task.description %> </li>
-		<li> hours <%= task.hours %> </li>
-	</ul>
+  <p><b><%= task.task_type %></b></p>
+	<p><b>Description: </b><%= task.description%></p>
+	<div class="circle">
+		<div class="circle-text">
+			<b><%= task.hours %></b>
+		</div>
+	</div>
 </div>
