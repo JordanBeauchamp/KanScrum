@@ -19,5 +19,45 @@
 	<% end %>
 </ul>
 <script type="text/javascript">
+
+    var parentDivId = ""; // Holds the parent div id of currenlty moving item.
+    $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable(
+    {
+    	connectWith: ".tasklist",
+    	helper: function(event, element) 
+    	{
+				// Contain task within parent userstory element.
+    		console.log(element.parent().parent());
+    		$(this).sortable("option", "containment", element.parent().parent());
+    		return element;
+  		},
+    	items: ".well",
+    	tolerance: "pointer",
+    	delay: 100,
+    	start: function(event, ui)
+    	{
+    		parentDivId = ui.item.parent().attr("id");
+    		// Display border to guide user.
+    		ui.item.parent().parent().css("outline", "2px solid #edf0f2");
+    	},
+    	stop: function(event, ui)
+    	{
+    		// Remove border.
+    		ui.item.parent().parent().css("outline", "0px solid white");
+    		if(ui.item.parent().attr("id") != parentDivId)
+    		{
+    			var task_type = ui.item.parent().attr("id");
+    			task_type = task_type.substring(8);
+
+    			// Update task status to reflect the new column it is in.
+    			$.ajax({
+    				type: "POST",
+    				url: "/tasks/update_status/".concat(ui.item.attr("id") + "&" + task_type),
+    				dataType: "json"
+    			})
+    		}
+    	}
+    }).disableSelection();
+
     $("#userStoryList").sortable();
 </script>
