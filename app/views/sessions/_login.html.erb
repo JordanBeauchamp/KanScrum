@@ -1,0 +1,9 @@
+<h1>Login</h1>
+<%= form_tag(:action => "login_attempt", 
+:controller => "sessions") do %>
+	<strong> Name </strong>
+	<%= text_field_tag :name %> 
+	<strong> Password </strong>
+	<%= password_field_tag :password %>
+	<%= submit_tag("Login") %>
+<% end %>

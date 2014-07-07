@@ -1,7 +1,7 @@
 KanScrum::Application.routes.draw do
 
-	root 'sprints#new'
-	post "/", :to => "sprints#create"
+  # Root
+  root "static_pages#home"
 
   resources :users
   resources :tasks
@@ -12,5 +12,8 @@ KanScrum::Application.routes.draw do
   post "user_stories/new", :to => "user_stories#create"
   post '/tasks/update_status/:id&:task_status', to: 'tasks#update_status'
 
-
+  get "sessions/login"
+  get "static_pages/home"
+  get "sessions/home"
+  post "sessions/login_attempt"
 end

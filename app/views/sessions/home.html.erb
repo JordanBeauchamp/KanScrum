@@ -1,0 +1,4 @@
+<h1> Dashboard </h1>
+<% @sprints.each do |sprint| %>
+	<%= link_to sprint.name, sprint_path(sprint) %>
+<% end %>
