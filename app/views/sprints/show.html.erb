@@ -67,24 +67,24 @@ $("#userStoryList").sortable({
     if(priority == (ui.item.index() + 1)) return; // Priority hasn't changed.
     
     // Priority needs updating.
-		var userStoryPriorities = [];
-		$(this).children().each(function(index, item)
-		{
-			var id = $(item).attr('id');
-			id = id.substring(9);
-			userStoryPriorities.push({ id: id, priority: index + 1 });
-      var element = $(item).find('#priority-text');
-      element.text("");
-			element.append("<strong>" + (index + 1) + "</strong>");
-		});
+	var userStoryPriorities = [];
+	$(this).children().each(function(index, item)
+	{
+		var id = $(item).attr('id');
+		id = id.substring(9);
+		userStoryPriorities.push({ id: id, priority: index + 1 });
+        var element = $(item).find('#priority-text');
+        element.text("");
+		element.append("<strong>" + (index + 1) + "</strong>");
+	});
 		
-	 // Update task status to reflect the new column it is in.
-   $.ajax({
-     type: "POST",
-		 data: JSON.stringify(userStoryPriorities),
-     url: "/user_stories/update_priority/",
-		 contentType: "application/json",
-     dataType: "json"
+    // Update task status to reflect the new column it is in.
+    $.ajax({
+        type: "POST",
+		data: JSON.stringify(userStoryPriorities),
+        url: "/user_stories/update_priority/",
+		contentType: "application/json",
+        dataType: "json"
      })
    }
 });
@@ -101,9 +101,11 @@ $('.btn-info').on('click', function()
         url: "/tasks/assign_user/".concat(taskId + "&" + userId),
         dataType: "json",
         success: function(data)
-        {
+        {   
+            var d = new Date();
             $('#p' + taskId).text("Assigned to: <%= current_user.name %>"); // Update the text.
-            $(("#image" + taskId)).attr("src", "/assets/<%= current_user.image %>"); // Update the image.
+            console.log($(("#image" + taskId)));
+            $(("#image" + taskId)).attr("src", "/assets/<%= current_user.image %>#" + d.getTime()); // Update the image.
         }
     })
 });
