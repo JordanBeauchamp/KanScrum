@@ -1,7 +1,15 @@
 class TasksController < ApplicationController
-	skip_before_filter  :verify_authenticity_token, :only => [:update_status]
+	skip_before_filter  :verify_authenticity_token, :only => [:update_status, :assign_user]
 	
 	include ApplicationHelper
+
+	# Ajax method for assigning user to a task.
+	def assign_user
+		task = Task.find_by_id(params[:id])
+		task.update(:user_id => params[:user_id], :user_name => User.find(params[:user_id]).name)
+		render json: task.user_name
+	end
+
 	def new
 		@task = Task.new
 	end
@@ -20,7 +28,7 @@ class TasksController < ApplicationController
 	end
 
 	def show
-		@task = task.find(params[:id])
+		@task = Task.find(params[:id])
 	end
 
 	# Ajax method to update task status from view.

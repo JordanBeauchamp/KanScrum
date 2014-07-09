@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_filter :clear_notices, :except => [:show]
   before_filter :authenticate_user, :only => [:show, :delete, :update]
   helper_method :current_user
 
@@ -13,9 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected 
-  def clear_notices
-    flash[:notice] = nil
-  end
   def authenticate_user
     if session[:user_id]
      # set current user object to @current_user object variable
