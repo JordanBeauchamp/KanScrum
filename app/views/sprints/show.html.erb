@@ -19,10 +19,13 @@
 	<% end %>
 </ul>
 <script type="text/javascript">
- var parentDivId = ""; // Holds the parent div id of currenlty moving item.
- $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable({
+
+// Holds the parent div id of currenlty moving item.
+var parentDivId = "";
+$("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable({
      connectWith: ".tasklist",
-     helper: function(event, element) {
+     helper: function(event, element) 
+     {
          // Contain task within parent userstory element.
          $(this).sortable("option", "containment", element.parent().parent());
          return element;
@@ -30,71 +33,65 @@
      items: ".well",
      tolerance: "pointer",
      delay: 100,
-     start: function(event, ui) {
+     start: function(event, ui) 
+     {
          parentDivId = ui.item.parent().attr("id");
          // Display border to guide user.
          ui.item.parent().parent().css("outline", "2px solid #edf0f2");
      },
-     stop: function(event, ui) {
+     stop: function(event, ui) 
+     {
          // Remove border.
          ui.item.parent().parent().css("outline", "0px solid white");
          if (ui.item.parent().attr("id") != parentDivId) {
-             var taskType = ui.item.parent().attr("id");
-             taskType = taskType.substring(8);
+             var taskId = parseId(ui.item.parent().attr("id"), 8);
 
              // Update task status to reflect the new column it is in.
              $.ajax({
                  type: "POST",
-                 url: "/tasks/update_status/".concat(ui.item.attr("id") + "&" + taskType),
+                 url: "/tasks/update_status/".concat(ui.item.attr("id") + "&" + taskId),
                  dataType: "json"
-             })
+             });
          }
      }
    }).disableSelection();
-  
-    // Update Userstory priority.
+          
+    // Update UserStory priority.
     // Index starts at 0 so must be offset by +1 when chaning to priority.
-var priority = 0;
-$("#userStoryList").sortable({
-	tolerance: "pointer",
-	delay: 100,
-	start: function(event, ui)
-  {
-    priority = ui.item.index() + 1; // Store inital priority.
-  },
-  stop: function(event, ui)
-  {
-    if(priority == (ui.item.index() + 1)) return; // Priority hasn't changed.
+    var priority = 0;
+    $("#userStoryList").sortable({
+        tolerance: "pointer",
+        delay: 100,
+        start: function(event, ui)
+        {
+            priority = ui.item.index() + 1; // Store inital priority.
+        },
+        stop: function(event, ui)
+        {
+            if(priority == (ui.item.index() + 1)) return; // Priority hasn't changed.
+            updatePriority($(this), priority); 
+        }
+    });
     
-    // Priority needs updating.
-	var userStoryPriorities = [];
-	$(this).children().each(function(index, item)
-	{
-		var id = $(item).attr('id');
-		id = id.substring(9);
-		userStoryPriorities.push({ id: id, priority: index + 1 });
-        var element = $(item).find('#priority-text');
-        element.text("");
-		element.append("<strong>" + (index + 1) + "</strong>");
-	});
-		
-    // Update task status to reflect the new column it is in.
-    $.ajax({
-        type: "POST",
-		data: JSON.stringify(userStoryPriorities),
-        url: "/user_stories/update_priority/",
-		contentType: "application/json",
-        dataType: "json"
-     })
-   }
-});
+    // Assign user to task.
+    $(document).on('click', '.btn-info', function()
+    {
+        assignUser(this);
+    });
 
-// Assign to tasks.
-$('.btn-info').on('click', function()
+    // Unassign user from a task.
+    $(document).on('click', '.btn-success', function()
+    {
+        unassignUser(this);
+    });
+
+// Assign user to selected task.
+function assignUser(element)
 {
-    var taskId = $(this).attr('id');
-    taskId = taskId.substring(6); // Snip 'assign' from id
-    var userId = <%= raw (session[:user_id]).to_i %>;
+    var taskId = parseId($(element).attr('id'), 6);
+    var userId = <%= raw (current_user.id) %>;
+    var dropTaskButton = "<button id='drop-task', class = 'btn btn-success' >drop task</button>";
+
     // Update task status to reflect assignment to user.
     $.ajax({
         type: "POST",
@@ -102,11 +99,64 @@ $('.btn-info').on('click', function()
         dataType: "json",
         success: function(data)
         {   
+            // Update the text and add 'drop task' button.
+            $('#p' + taskId).text("Assigned to: <%= current_user.name %>");
+            $('#p' + taskId).append('<br>' + dropTaskButton);           
+    
+            // Force refresh on image.
             var d = new Date();
-            $('#p' + taskId).text("Assigned to: <%= current_user.name %>"); // Update the text.
-            console.log($(("#image" + taskId)));
-            $(("#image" + taskId)).attr("src", "/assets/<%= current_user.image %>#" + d.getTime()); // Update the image.
+            $("#image" + taskId).attr("src", "/assets/<%= current_user.image %>#" + d.getTime());
+
+            // Remove assign button.
+            $("#assign" + taskId).remove();
         }
+    });
+}
+
+function unassignUser(element)
+{   
+    var taskId = parseId($(element).parent().attr('id'), 1);
+    var assignButton = "<button id='assign" + taskId + "' class='btn btn-info'>jump on it!</button>";
+    $.ajax({    
+        type: 'POST',
+        url: '/tasks/unassign_user/'.concat(taskId),
+        datatype: 'json'
     })
-});
+    
+    // Update view elements to unassigned state.
+    $('#image' + taskId).attr('src', '');
+    $('#p' + taskId).text('Unassigned');
+    $('#p' + taskId).append('<br>' + assignButton);
+}
+
+// Update priority of UserStories after sort event.
+function updatePriority(parent, priority)
+{
+    var userStoryPriorities = [];
+    $(parent).children().each(function(index, item)
+    {
+        var id = parseId($(item).attr('id'), 9);
+        userStoryPriorities.push({ id: id, priority: index + 1 });
+
+        // Update view elements with new priority.
+        var element = $(item).find('#priority-text');
+        element.text("");
+        element.append("<strong>" + (index + 1) + "</strong>");
+    });
+        
+    // Update task status to reflect the new column it is in.
+    $.ajax({
+        type: "POST",
+        data: JSON.stringify(userStoryPriorities),
+        url: "/user_stories/update_priority/",
+        contentType: "application/json",
+        dataType: "json"
+    });
+} 
+
+// Helper method for parsing div ids.
+function parseId(id, index)
+{
+    return id.substring(index);
+}
 </script>

@@ -12,6 +12,7 @@ class SprintsController < ApplicationController
   end
 
   def show
+  puts "I AM SprintsController?"
 	 @sprint = Sprint.find(params[:id])
    @tasks = Hash.new
 

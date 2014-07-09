@@ -13,16 +13,22 @@
 	<strong>
 		<p id='p<%= task.id %>'>
 			<% if task.user_name %>
-				<%= 'Assigned to: ' << task.user_name %>
+				<%= 'Assigned to: ' << task.user_name %><br>
 			<% else %>
-				<%= 'Unassigned' %>
+				<%= 'Unassigned' %><br>
+			<% end %>
+			<% if task.user_name && task.user_name == current_user.name %>
+				<button class = 'btn btn-success' >drop task</button>
+			<% else %>
+				<button id=<%= "assign" << task.id.to_s %> class="btn btn-info">jump on it!</button>
 			<% end %>
 		</p>
 	</strong>
 	<% if task.user_name %>
 		<%= image_tag task.user.image, :class => 'avatar-image', :id => "image" + task.id.to_s %>
+	<% else %>
+		<%= image_tag "", :class => 'avatar-image', :id => "image" + task.id.to_s %>
 	<% end %>
-	<button id=<%= "assign" << task.id.to_s %> class="btn btn-info">jump on it!</button>
 	<div class="circle">
 		<div class="circle-text">
 			<b><%= task.hours %></b>

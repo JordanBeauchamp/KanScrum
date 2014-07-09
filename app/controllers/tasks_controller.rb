@@ -1,17 +1,30 @@
 class TasksController < ApplicationController
-	skip_before_filter  :verify_authenticity_token, :only => [:update_status, :assign_user]
+	skip_before_filter  :verify_authenticity_token, :only => [:update_status, :assign_user, :unassign_user]
 	
 	include ApplicationHelper
 
 	# Ajax method for assigning user to a task.
 	def assign_user
-		task = Task.find_by_id(params[:id])
+		task = Task.find_by_id(params[:task_id])
 		task.update(:user_id => params[:user_id], :user_name => User.find(params[:user_id]).name)
 		
 		# Return json payload.
 		payload = {
  			data: task.user_name,
-  		status: 200
+  			status: 200
+		}
+		render :json => payload, :status => :ok
+	end
+
+	# Ajax method to remove user assignment of task.
+	def unassign_user
+		task = Task.find(params[:task_id])
+		task.update(:user_id => nil, :user_name => nil)
+		
+		# Return json payload.
+		payload = {
+ 			data: task.user_id,
+  			status: 200
 		}
 		render :json => payload, :status => :ok
 	end
@@ -39,7 +52,7 @@ class TasksController < ApplicationController
 
 	# Ajax method to update task status from view.
 	def update_status
-		task = Task.find_by_id(params[:id])
+		task = Task.find_by_id(params[:task_id])
 		task_status = params[:task_status]
 		if(task_status == "Ready")
 			task.update(:status => TaskStatus::READY)
