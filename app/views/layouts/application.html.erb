@@ -6,9 +6,47 @@
   <%= javascript_include_tag "jquery-1.10.2.js" %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
-	<h2 id="notice"><%= notice %></h2>
+  <% if current_user %>
+  <div class="container">
+      <!-- Static navbar -->
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><b>KanScrum</b></a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"> <%= link_to "Home", sessions_home_path, {:class => "btn"} %></li>
+              <li><%= link_to 'Logout', sessions_destroy_path, method: :delete, :class => "btn" %></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </div>
+  <% end %>
+	<% flash.each do |key, value| %>
+    <div id="flash" class="<%= flash_class(key) %>">
+			<%= value %>
+      <div class="close-box">x</div>
+    </div>
+  <% end %>
 </head>
 <body>
 	<%= yield %>
 </body>
+<script type="text/javascript">
+	$(".close-box").mouseenter(function() {
+    $(this).css("outline", "2px solid #edf0f2");
+  }).mouseleave(function() {
+    $(this).css("outline", "0px solid white");
+  });
+  $(".close-box").on('click', function(){
+    $(this).parent().remove();
+	});
+</script>
 </html>

@@ -1,12 +1,16 @@
-<h1>Create new user story</h1>
+<h1>Create User story</h1>
 <%= form_for :user_story do |f| %>
-	<%= f.text_field :title, :placeholder => "Title" %>
-	<%= f.text_area :description, :placeholder => "A breif description" %>
-	<%= f.text_area :criteria,  :placeholder => "The accepatnce criteria" %>
-	<strong> prioirty </strong>
-	<%= f.number_field :priority, :placeholder => 0, :default => 0 %>
-	<strong> story points </strong>
-	<%= f.number_field :story_points, :placeholder => 0, :default => 0 %>
+	<strong> Title </strong>
+	<%= f.text_field :title, :placeholder => "Title", class: "form-control" %>
+	<strong> Description </strong>
+	<%= f.text_area :description, :placeholder => "As a... I want.... so that.....", class: "form-control" %>
+	<strong> Acceptance Criteria </strong>
+	<%= f.text_area :criteria,  :placeholder => "I N V E S T", class: "form-control" %>
+	<strong> Prioirty </strong>
+	<%= f.number_field :priority, :placeholder => 0, :default => 0, class: "form-control" %>
+	<strong> Story Points </strong>
+	<%= f.number_field :story_points, :placeholder => 0, :default => 0, class: "form-control" %>
 	<%= f.number_field :sprint_id, :value => params[:sprint_id], :hidden => true %>
-	<%= f.submit %>
-<% end %>
+	<%= f.submit "create", :class => 'btn btn-primary active' %>
+	<% end %>
+</div>

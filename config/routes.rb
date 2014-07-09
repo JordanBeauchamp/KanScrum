@@ -10,10 +10,10 @@ KanScrum::Application.routes.draw do
   post "tasks/new", :to => "tasks#create"
   post "sprints/new", :to => "sprints#create"
   post "user_stories/new", :to => "user_stories#create"
-  post '/tasks/update_status/:id&:task_status', to: 'tasks#update_status'
+  post "/tasks/update_status/:id&:task_status", to: "tasks#update_status"
 
-  get "sessions/login"
   get "static_pages/home"
   get "sessions/home"
+  get "sessions/destroy"
   post "sessions/login_attempt"
 end
