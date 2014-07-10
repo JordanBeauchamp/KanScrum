@@ -1,9 +1,13 @@
 <div class="well well-<%= task.task_type.downcase %>", id=<%= task.id %>>
   <p><b><%= task.task_type %></b></p>
 	<p><b>Description: </b><%= task.description%></p>
-	<% if task.user_name %>
-		<p id="p<%= task.id %>">Assigned to: <%= task.user_name %></p>
-	<% end %>
+		<p id="p<%= task.id %>">
+			<% if task.user_name %>
+				<%= "Assigned to: " << task.user_name %>
+			<% else %>
+				<%= 'Unassigned' %>
+			<% end %>
+		</p>
 	<button id=<%= "assign" << task.id.to_s %> class="btn btn-info">Assign</button>
 	<div class="circle">
 		<div class="circle-text">

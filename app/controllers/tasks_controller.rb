@@ -7,7 +7,13 @@ class TasksController < ApplicationController
 	def assign_user
 		task = Task.find_by_id(params[:id])
 		task.update(:user_id => params[:user_id], :user_name => User.find(params[:user_id]).name)
-		render json: task.user_name
+		
+		# Return json payload.
+		payload = {
+ 			data: task.user_name,
+  		status: 200
+		}
+		render :json => payload, :status => :ok
 	end
 
 	def new

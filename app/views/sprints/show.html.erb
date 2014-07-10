@@ -67,8 +67,9 @@
             type: "POST",
             url: "/tasks/assign_user/".concat(taskId + "&" + userId),
             dataType: "json",
-            success: function(data, status, xhjr)
+            success: function(data)
             {
+                console.log("success");
                 $('#p' + taskId).text("Assigned to: <%= current_user.name %>");
             }
         })
