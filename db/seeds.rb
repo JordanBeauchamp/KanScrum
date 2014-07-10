@@ -5,4 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Users = User.create([{ name: 'Jordan', password: 'meerkat'}])
+Users = User.create([{ name: 'Jordan', password: 'meerkat'}, {name: 'Tester', password: 'tester'}])
+Team = Team.create([{name: 'meerkat development'}])
+Sprint = Sprint.create([{name: 'Database Sprint (1)'}])

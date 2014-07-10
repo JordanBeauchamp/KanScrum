@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
  	 	flash[:notice] = "Hi, " << @current_user.name.capitalize << "!"
 
  	 	# Collect this users  sprints.
- 	 	@sprints = Sprint.where("user_id = ?", @current_user.id)
+ 	 	@teams = @current_user.teams
  	end
 
  	def login_attempt

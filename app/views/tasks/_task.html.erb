@@ -2,7 +2,7 @@
   <p><b><%= task.task_type %></b></p>
 	<p><b>Description: </b><%= task.description%></p>
 	<% if task.user_name %>
-		<p id="p<%= task.id %>"> Assinged to: <%= task.user_name %></p>
+		<p id="p<%= task.id %>">Assigned to: <%= task.user_name %></p>
 	<% end %>
 	<button id=<%= "assign" << task.id.to_s %> class="btn btn-info">Assign</button>
 	<div class="circle">

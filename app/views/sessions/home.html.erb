@@ -1,4 +1,5 @@
-<h1> Dashboard </h1>
-<% @sprints.each do |sprint| %>
-	<%= link_to sprint.name, sprint_path(sprint) %>
+<h1> Home </h1>
+<strong><p>Teams you're in:</p></strong>
+<% @teams.each do |team| %>
+	<%= link_to team.name, team_path(team) %>
 <% end %>

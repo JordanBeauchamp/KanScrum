@@ -1,5 +1,7 @@
 KanScrum::Application.routes.draw do
 
+  resources :teams
+
   # Root
   root "static_pages#home"
 

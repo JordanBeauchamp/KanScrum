@@ -11,16 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140709023143) do
+ActiveRecord::Schema.define(version: 20140710011201) do
 
   create_table "sprints", force: true do |t|
     t.string   "name"
+    t.integer  "team_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
   end
-
-  add_index "sprints", ["user_id"], name: "index_sprints_on_user_id"
 
   create_table "tasks", force: true do |t|
     t.string   "description"
@@ -36,6 +34,24 @@ ActiveRecord::Schema.define(version: 20140709023143) do
 
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id"
   add_index "tasks", ["user_story_id"], name: "index_tasks_on_user_story_id"
+
+  create_table "teams", force: true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "sprint_id"
+  end
+
+  add_index "teams", ["sprint_id"], name: "index_teams_on_sprint_id"
+  add_index "teams", ["user_id"], name: "index_teams_on_user_id"
+
+  create_table "teams_users", force: true do |t|
+    t.integer  "team_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_stories", force: true do |t|
     t.string   "title"
@@ -58,9 +74,6 @@ ActiveRecord::Schema.define(version: 20140709023143) do
     t.string   "image"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "sprints_id"
   end
-
-  add_index "users", ["sprints_id"], name: "index_users_on_sprints_id"
 
 end
