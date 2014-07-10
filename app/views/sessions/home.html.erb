@@ -1,5 +1,12 @@
 <h1> Home </h1>
-<strong><p>Teams you're in:</p></strong>
+<h2>Your Teams</h2>
 <% @teams.each do |team| %>
-	<%= link_to team.name, team_path(team) %>
+	<h1><%= link_to team.name, team_path(team) %></h1><br>
+	<ul>
+		<% team.sprints.each do |sprint| %>
+			<li>
+				<%= link_to sprint.name, sprint_path(sprint) %>
+			</li>
+		<% end %>
+	</ul>
 <% end %>

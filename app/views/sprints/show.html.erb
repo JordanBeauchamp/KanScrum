@@ -1,4 +1,4 @@
-<h1>Sprint <%= @sprint.name %></h1>
+<h1><%= @sprint.name %></h1>
 <%= link_to "Add User Story", :controller => 'user_stories', :action => 'new', :sprint_id => @sprint.id %><br>
 
 <div class="tasklist-parent">		
