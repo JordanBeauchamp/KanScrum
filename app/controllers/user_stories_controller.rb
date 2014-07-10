@@ -25,7 +25,7 @@ class UserStoriesController < ApplicationController
     @tasks_ready = @user_story.tasks.select{ |task| task[:status] == TaskStatus::READY}
     @tasks_in_progress = @user_story.tasks.select{ |task| task[:status] == TaskStatus::IN_PROGRESS}
     @tasks_done = @user_story.tasks.select{ |task| task[:status] == TaskStatus::DONE}
-    estimated_hours = @user_story.tasks.to_a.sum(&:hours)
+    estimated_hours = @tasks_ready.to_a.sum(&:hours)
     @user_story.estimated_hours = estimated_hours
     @user_story.save
   end

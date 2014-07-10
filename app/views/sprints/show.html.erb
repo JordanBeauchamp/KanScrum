@@ -24,7 +24,6 @@
      connectWith: ".tasklist",
      helper: function(event, element) {
          // Contain task within parent userstory element.
-         console.log(element.parent().parent());
          $(this).sortable("option", "containment", element.parent().parent());
          return element;
      },
@@ -61,7 +60,6 @@
         var taskId = $(this).attr('id');
         taskId = taskId.substring(6); // Snip 'assign' from id
         var userId = <%= raw (session[:user_id]).to_i %>;
-        console.log(userId + " " + taskId);
         // Update task status to reflect assignment to user.
         $.ajax({
             type: "POST",
@@ -69,10 +67,13 @@
             dataType: "json",
             success: function(data)
             {
-                console.log("success");
-                $('#p' + taskId).text("Assigned to: <%= current_user.name %>");
+                $('#p' + taskId).text("Assigned to: <%= current_user.name %>"); // Update the text.
+                $(("#image" + taskId)).attr("src", "/assets/<%= current_user.image %>"); // Update the image.
             }
         })
     });
+
+    // Update Userstory priority
+
 
 </script>
