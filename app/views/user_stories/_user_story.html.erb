@@ -1,0 +1,23 @@
+<div class="well user-story">
+	<h1> <%= link_to user_story.title, user_story %> </h1>
+	<h2> Description: </h2><p> <%= user_story.description %></p>
+	<h2> Acceptance criteria: </h2><p> <%= user_story.criteria %>
+	
+	<div class="circle-align">
+		<div class="big-circle priority">
+  	  <div class="circle-text" id='priority-text'>
+  	      <strong><%= user_story.priority %></strong>
+  	  </div>
+		</div>
+		<div class="big-circle hours">
+  	  <div class="circle-text">
+  	      <%= user_story.estimated_hours %><sub>hours</sub>
+  	  </div>
+		</div>
+		<div class="big-circle story-points">
+  	  <div class="circle-text">
+  	      <%= user_story.story_points %><sub>points</sub>
+  	  </div>
+		</div>
+	</div>
+</div>

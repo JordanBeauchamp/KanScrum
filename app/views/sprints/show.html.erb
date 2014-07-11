@@ -1,0 +1,112 @@
+<h1><%= @sprint.name %></h1>
+<%= link_to "Add User Story", :controller => 'user_stories', :action => 'new', :sprint_id => @sprint.id %><br>
+
+<div class="tasklist-parent">		
+	<div class="tasklist"></div>
+	<ul id="tasklistReady" class="tasklist">
+		<div class="tasklist-header">Ready</div>
+	</ul>
+	<ul id="tasklistInProgress" class="tasklist">
+		<div class="tasklist-header">In Progress</div>
+	</ul>
+	<ul id="tasklistDone" class="tasklist">
+		<div class="tasklist-header">Done</div>
+	</ul>
+</div>
+<ul id="userStoryList">
+	<% @sprint.user_stories.each do |user_story| %>
+			<%= render 'taskboard', user_story: user_story %>
+	<% end %>
+</ul>
+<script type="text/javascript">
+ var parentDivId = ""; // Holds the parent div id of currenlty moving item.
+ $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable({
+     connectWith: ".tasklist",
+     helper: function(event, element) {
+         // Contain task within parent userstory element.
+         $(this).sortable("option", "containment", element.parent().parent());
+         return element;
+     },
+     items: ".well",
+     tolerance: "pointer",
+     delay: 100,
+     start: function(event, ui) {
+         parentDivId = ui.item.parent().attr("id");
+         // Display border to guide user.
+         ui.item.parent().parent().css("outline", "2px solid #edf0f2");
+     },
+     stop: function(event, ui) {
+         // Remove border.
+         ui.item.parent().parent().css("outline", "0px solid white");
+         if (ui.item.parent().attr("id") != parentDivId) {
+             var taskType = ui.item.parent().attr("id");
+             taskType = taskType.substring(8);
+
+             // Update task status to reflect the new column it is in.
+             $.ajax({
+                 type: "POST",
+                 url: "/tasks/update_status/".concat(ui.item.attr("id") + "&" + taskType),
+                 dataType: "json"
+             })
+         }
+     }
+   }).disableSelection();
+  
+    // Update Userstory priority.
+    // Index starts at 0 so must be offset by +1 when chaning to priority.
+var priority = 0;
+$("#userStoryList").sortable({
+	tolerance: "pointer",
+	delay: 100,
+	start: function(event, ui)
+  {
+    priority = ui.item.index() + 1; // Store inital priority.
+  },
+  stop: function(event, ui)
+  {
+    if(priority == (ui.item.index() + 1)) return; // Priority hasn't changed.
+    
+    // Priority needs updating.
+		var userStoryPriorities = [];
+		$(this).children().each(function(index, item)
+		{
+			var id = $(item).attr('id');
+			id = id.substring(9);
+			userStoryPriorities.push({ id: id, priority: index + 1 });
+      var element = $(item).find('#priority-text');
+      element.text("");
+			element.append("<strong>" + (index + 1) + "</strong>");
+		});
+		
+	 // Update task status to reflect the new column it is in.
+   $.ajax({
+     type: "POST",
+		 data: JSON.stringify(userStoryPriorities),
+     url: "/user_stories/update_priority/",
+		 contentType: "application/json",
+     dataType: "json"
+     })
+   }
+});
+
+// Assign to tasks.
+$('.btn-info').on('click', function()
+{
+    var taskId = $(this).attr('id');
+    taskId = taskId.substring(6); // Snip 'assign' from id
+    var userId = <%= raw (session[:user_id]).to_i %>;
+    // Update task status to reflect assignment to user.
+    $.ajax({
+        type: "POST",
+        url: "/tasks/assign_user/".concat(taskId + "&" + userId),
+        dataType: "json",
+        success: function(data)
+        {
+            $('#p' + taskId).text("Assigned to: <%= current_user.name %>"); // Update the text.
+            $(("#image" + taskId)).attr("src", "/assets/<%= current_user.image %>"); // Update the image.
+        }
+    })
+});
+    
+
+</script>

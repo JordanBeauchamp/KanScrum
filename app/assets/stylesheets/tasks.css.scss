@@ -1,0 +1,81 @@
+// Place all the styles related to the Tasks controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.avatar-image {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.circle {
+	border-radius: 50%;
+	width: 3em;
+	height: 3em; 
+	background-color: #edf0f2;
+	text-align: center;
+	line-height: 3em;
+	margin-left: auto;
+}
+
+.circle-text
+{
+	font-size: 2em;
+}
+
+.well
+{
+	width: auto;
+	height: auto;
+	margin: 0.5em;
+	display: block;
+	cursor: pointer;
+}
+
+.well-test
+{
+	background-color:#F69679;
+}
+
+.well-design 
+{
+	background-color:#ffffff;
+}
+.well-development 
+{
+	background-color:#7ACCC8;
+}
+
+.well-documentation 
+{
+	background-color:#ffffff;
+}
+
+.well-spike
+{
+	background-color:#E8B968;
+}
+
+.tasklist-parent
+{
+	// Child elements flex to fit.
+	display: flex;
+	flex-direction: row;
+	padding: 1em;
+	width: 100em;
+}
+
+.tasklist
+{
+	border-radius: 4px;
+	background-color: #ffffff;
+	width: 50em;
+	height: auto;
+}
+
+.tasklist-header
+{
+	font-size: 3em;
+}

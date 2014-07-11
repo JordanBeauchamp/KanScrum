@@ -1,0 +1,76 @@
+<%= link_to "Sprint", :controller => "sprints", :action => "show", :id => @user_story.sprint_id %>
+<h1> <%= @user_story.title %> </h1>
+<h2> Description </h2>
+<p> <%= @user_story.description %></p>
+<h2> Acceptance criteria </h2>
+<p> <%= @user_story.criteria %><br> <br>
+
+
+<h1> Tasks </h1>
+<!-- Small modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target=".task-modal">Add Task</button>
+
+<div class="modal task-modal" tabindex="-1" role="dialog" aria-labelledby="task-modal" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Add Task</h4>
+      </div>
+        <%= render 'tasks/fields' %>
+    </div>
+  </div>
+</div>
+
+<div class="tasklist-parent">
+	<ul id="tasklistReady" class="tasklist">
+	<div class="tasklist-header"> Ready </div>
+		<% @tasks_ready.each do |task| %>
+			<%= render task, task: task %>
+		<% end %>
+	</ul>
+	<ul id="tasklistInProgress" class="tasklist">
+	<div class="tasklist-header"> In Progress </div>
+		<% @tasks_in_progress.each do |task| %>
+			<%= render task, task: task %>
+		<% end %>
+	</ul>
+	<ul id="tasklistDone" class="tasklist">
+	<div class="tasklist-header"> Done</div>
+		<% @tasks_done.each do |task| %>
+			<%= render task, task: task %>
+		<% end %>
+	</ul>
+</div>
+
+<script type="text/javascript">
+    var parentDivId = ""; // Holds the parent div id of currenlty moving item.
+
+    $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable(
+    {
+    	connectWith: ".tasklist",
+    	items: ".well",
+    	start: function(event, ui)
+    	{
+    		parentDivId = ui.item.parent().attr("id");
+    	},
+    	stop: function(event, ui)
+    	{
+    		if(ui.item.parent().attr("id") != parentDivId)
+    		{
+    			var task_type = ui.item.parent().attr("id");
+    			console.log(ui.item.attr("id"));
+    			task_type = task_type.substring(8);
+    			console.log(task_type);
+
+    			// Update task status to reflect the new column it is in.
+    			$.ajax({
+    				type: "POST",
+    				url: "/tasks/update_status/".concat(ui.item.attr("id") + "&" + task_type),
+    				dataType: "json"
+    			})
+    		}
+    	}
+    }).disableSelection();
+
+</script>

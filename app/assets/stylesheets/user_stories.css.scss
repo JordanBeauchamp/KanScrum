@@ -1,0 +1,42 @@
+// Place all the styles related to the UserStories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.user-story
+{
+	margin: auto;
+}
+
+.big-circle 
+{
+	border-radius: 50%;
+	width: 5em;
+	height: 5em; 
+	text-align: center;
+	line-height: 5em;
+	margin: 1em;
+}
+
+.priority
+{
+	background-color: #F18C79;
+}
+
+.hours
+{
+	background-color: #84CDC2;
+}
+
+.story-points
+{
+	background-color: #84CDC2;
+}
+
+.circle-align
+{
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	border-radius: 4px;
+	background-color: #ffffff;
+}
