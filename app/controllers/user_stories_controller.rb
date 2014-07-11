@@ -1,4 +1,5 @@
 class UserStoriesController < ApplicationController
+
 skip_before_filter  :verify_authenticity_token, :only => [:update_priority]
   
 	def create
@@ -49,6 +50,7 @@ skip_before_filter  :verify_authenticity_token, :only => [:update_priority]
 		}
 		render :json => payload, :status => :ok    
   end
+
 
   private 
   def user_story_params

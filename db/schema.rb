@@ -32,6 +32,9 @@ ActiveRecord::Schema.define(version: 20140710011201) do
     t.string   "user_name"
   end
 
+  add_index "tasks", ["user_id"], name: "index_tasks_on_user_id"
+  add_index "tasks", ["user_story_id"], name: "index_tasks_on_user_story_id"
+
   create_table "teams", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
