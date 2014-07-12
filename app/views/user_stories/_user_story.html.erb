@@ -10,8 +10,12 @@
   	  </div>
 		</div>
 		<div class="big-circle hours">
-  	  <div class="circle-text">
-  	      <%= user_story.estimated_hours %><sub>hours</sub>
+			<div class="circle-text">
+				<% if user_story.estimated_hours %>
+						<%= user_story.estimated_hours %><sub>hours</sub>
+				<% else %>
+						0<sub>hours</sub>
+				<% end %>
 			</div>
 		</div>
 		<div class="big-circle story-points">
