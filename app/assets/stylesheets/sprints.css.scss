@@ -21,5 +21,6 @@ ul
 .taskboard-header-group
 {
 	display: flex;
-	flex-direction: row;
+	display: -ms-flexbox;
+  display: -webkit-flex;
 }

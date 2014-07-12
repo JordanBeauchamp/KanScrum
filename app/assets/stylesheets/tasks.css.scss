@@ -2,27 +2,31 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.avatar-image {
+$circle-size: 5em;
+
+.avatar-image
+{
     background-position: 50% 50%;
     background-repeat: no-repeat;
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: $circle-size;
+    height: $circle-size;
 }
 
-.circle {
+.circle
+{
 	border-radius: 50%;
-	width: 3em;
-	height: 3em; 
+	width: $circle-size;
+	height: $circle-size; 
+	line-height: $circle-size;
 	background-color: #edf0f2;
 	text-align: center;
-	line-height: 3em;
 	margin-left: auto;
 }
 
 .circle-text
 {
-	font-size: 2em;
+	font-size: 2.5em;
 }
 
 .well
@@ -32,6 +36,14 @@
 	margin: 0.5em;
 	display: block;
 	cursor: pointer;
+}
+
+.task-placeholder
+{
+	width: auto;
+	height: auto;
+	margin: 0.5em;
+	display: block;
 }
 
 .well-test
@@ -62,17 +74,19 @@
 {
 	// Child elements flex to fit.
 	display: flex;
-	flex-direction: row;
+	display: -ms-flexbox;
+  display: -webkit-flex;
+	
 	padding: 1em;
-	width: 100em;
+	width: 90em;
 }
 
 .tasklist
 {
 	border-radius: 4px;
 	background-color: #ffffff;
-	width: 50em;
-	height: auto;
+	width: 30em;
+	height: width;
 }
 
 .tasklist-header

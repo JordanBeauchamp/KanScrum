@@ -24,14 +24,16 @@
 			<% end %>
 		</p>
 	</strong>
-	<% if task.user_name %>
-		<%= image_tag task.user.image, :class => 'avatar-image', :id => "image" + task.id.to_s %>
-	<% else %>
-		<%= image_tag "", :class => 'avatar-image', :id => "image" + task.id.to_s %>
-	<% end %>
-	<div class="circle">
-		<div class="circle-text">
-			<b><%= task.hours %></b>
+	<div class='circle-align'>
+		<% if task.user_name %>
+			<%= image_tag task.user.image, :class => 'avatar-image', :id => "image" + task.id.to_s %>
+		<% else %>
+			<%= image_tag "", :class => 'avatar-image', :id => "image" + task.id.to_s %>
+		<% end %>
+		<div class="circle">
+			<div class="circle-text">
+				<b><%= task.hours %></b>
+			</div>
 		</div>
 	</div>
 </div>

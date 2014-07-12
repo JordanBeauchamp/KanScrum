@@ -23,15 +23,20 @@
 // Holds the parent div id of currenlty moving item.
 var parentDivId = "";
 $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable({
-     connectWith: ".tasklist",
+
+		 connectWith: ".tasklist",
      helper: function(event, element) 
      {
          // Contain task within parent userstory element.
          $(this).sortable("option", "containment", element.parent().parent());
          return element;
      },
-     items: ".well",
-     tolerance: "pointer",
+		 items: ".well",
+		 placeholder: ".task-placeholder",
+		 forcePlaceholderSize: true,
+		 snap: '.task-list',
+		 snapMode: 'inner',
+		 tolerance: "pointer",
      delay: 100,
      start: function(event, ui) 
      {
@@ -62,14 +67,18 @@ $("#tasklistReady, #tasklistInProgress, #tasklistDone").sortable({
     $("#userStoryList").sortable({
         tolerance: "pointer",
         delay: 100,
-        start: function(event, ui)
+				snap: '.tasklist-parent',
+				snapMode: 'outer',
+				start: function(event, ui)
         {
-            priority = ui.item.index() + 1; // Store inital priority.
+				priority = ui.item.index() + 1; // Store inital priority.
+				ui.item.css("outline", "2px solid #edf0f2");
         },
         stop: function(event, ui)
         {
             if(priority == (ui.item.index() + 1)) return; // Priority hasn't changed.
-            updatePriority($(this), priority); 
+						updatePriority($(this), priority);
+						ui.item.css('outline', '0px solid white');
         }
     });
     

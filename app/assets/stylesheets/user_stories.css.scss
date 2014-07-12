@@ -34,9 +34,10 @@
 
 .circle-align
 {
+	display: -ms-flexbox;
+  display: -webkit-flex;
 	display: flex;
-	flex-direction: row;
+	
 	margin: auto;
 	border-radius: 4px;
-	background-color: #ffffff;
 }

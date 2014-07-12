@@ -11,5 +11,6 @@
 // about supported directives.
 //
 //= jquery-ui-1.10.4.custom.min.js
+//= jquery.ui.touch-punch
 //= require turbolinks
 //= require_tree .
